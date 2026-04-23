@@ -1,5 +1,8 @@
 ﻿
-BankAccount bankAccount = new BankAccount("66655471997");
+BankAccount bankAccount = new BankAccount();
+BankTransfer bankTransfer = new BankTransfer();
+EWallet eWallet = new EWallet();
+CreditCard creditCard = new CreditCard();
 
 bool repeat = true;
 while (repeat)
@@ -13,9 +16,9 @@ while (repeat)
         ],
         // Options reflect the merged program structure
         Options = [
-        "1. Display Account Info",
-        "2. WithDraw Money",
-        "3. Deposit Money",
+        "1. Bank Transfer",
+        "2. E-Wallet",
+        "3. Credit Card",
         "4. Quit Application"
         ],
         // Starting the menu at row 3 (after 2 lines of prompt + 1 blank line)
@@ -34,20 +37,14 @@ while (repeat)
     switch (choice)
     {
         case 1:
-            bankAccount.DisplayInfo();
-            ConsoleMenu.ReadWrite("\nPress Enter to continue...");
+            bankTransfer.Checkout(100);
             break;
         case 2:
-            amount = double.Parse(ConsoleMenu.ReadWrite("Input the amount of money to be drawn: "));
-            bankAccount.WithDraw(amount);
+            eWallet.Checkout(100);
             break;
         case 3:
-            amount = double.Parse(ConsoleMenu.ReadWrite("Input the amount of money to be deposited: "));
-            bankAccount.Deposit(amount);
+            creditCard.Checkout(100);
             break;
-        case 4:
-            Console.WriteLine("\nThank you for using our service");
-            repeat = false;
         default:
             Console.WriteLine("ERROR: OUT OF BOUNDS");
             break;
@@ -55,46 +52,33 @@ while (repeat)
 }
 class BankAccount
 {
-    private double _balance;
-
-    public string _acc_num;
-    public double Balance
-    {
-        get { return _balance; }
-        set
-        {
-            if (value < 0) Console.WriteLine("Balance can not be negative!");
-            _balance = value;
-        }
+    public virtual void Checkout(int amount)
+    { 
+        Console.WriteLine("PROCEED");
     }
+}
 
-    public string AccNum
+class BankTransfer : BankAccount
+{
+    public override void Checkout(int amount)
     {
-        get { return _acc_num; }
+        Console.WriteLine($"Proceed to transfer {amount} KROMER to the credit card number 1219-7455-2597");
     }
+}   
 
-    public BankAccount(string accNum)
+class EWallet : BankAccount
+{
+    public override void Checkout(int amount)
     {
-        _acc_num = accNum;
-        _balance = 100000;
+        Console.WriteLine($"Transaction of {amount} KROMER has been successful");
     }
+}
 
-    public void WithDraw(double amount)
+class CreditCard : BankAccount
+{
+    public override void Checkout(int amount)
     {
-        if (amount > _balance) Console.WriteLine("The amount should not exceed the balance!");
-        else _balance -= amount;
-    }
-
-    public void Deposit(double amount)
-    {
-        if (amount < 0) Console.WriteLine("The amount should not be negative!");
-        else _balance += amount;
-    }
-
-    public void DisplayInfo()
-    {
-        Console.WriteLine($"Account Number:{_acc_num}");
-        Console.WriteLine($"Balance: {_balance}");
+        Console.WriteLine($"Amount deducted by {amount} KROMER");
     }
 }
 
