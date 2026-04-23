@@ -36,13 +36,13 @@ while (repeat)
 
     switch (choice)
     {
-        case 1:
+        case 0:
             bankTransfer.Checkout(100);
             break;
-        case 2:
+        case 1:
             eWallet.Checkout(100);
             break;
-        case 3:
+        case 2:
             creditCard.Checkout(100);
             break;
         default:
@@ -233,7 +233,6 @@ public class ConsoleMenu
         if (choice == 1)
         {
             Console.Clear();
-            Program.Main();
         }
         else
         {
